@@ -41,18 +41,18 @@ class Simplex(object):
         self._size_cols = self._size_eq + self._nb_eq + 2
         self._size_lines = self._nb_eq + 1
 
-        self.headers = []
+        self._headers = []
         for i in range(self._size_eq):
-            self.headers.append(f"x{i+1}")
+            self._headers.append(f"x{i+1}")
         for i in range(self._nb_eq):
-            self.headers.append(f"e{i+1}")
-        self.headers.append("C")
-        self.headers.append("R")
+            self._headers.append(f"e{i+1}")
+        self._headers.append("C")
+        self._headers.append("R")
 
-        self.line_headers = []
+        self._line_headers = []
         for i in range(self._size_eq):
-            self.line_headers.append(f"e{i+1}")
-        self.line_headers.append("F")
+            self._line_headers.append(f"e{i+1}")
+        self._line_headers.append("F")
 
         self._table = {}
         for line in range(self._size_lines):
@@ -71,12 +71,15 @@ class Simplex(object):
     def table(self):
         return self._table
 
-    def next_step(self):
+    def _next_step(self):
         """
 
         :return:
         """
-        col_pivot, line_pivot = self.compute_ratio(col_pivot=self.compute_col_pivot())
+        col_pivot, line_pivot = self._compute_ratio(col_pivot=self._compute_col_pivot())
+        self._line_headers.insert(0, self._headers[col_pivot])
+        self._line_headers.pop()
+        self._line_headers[self._size_lines - 1] = 'F'
         tmp_table = dict(self._table)
         pivot = Fraction(self._table[col_pivot, line_pivot])
 
@@ -94,7 +97,7 @@ class Simplex(object):
                 tmp_table[col, line_pivot] = self._table[col, line_pivot] / pivot
         self._table = dict(tmp_table)
 
-    def extract_max_func(self):
+    def _extract_max_func(self):
         """
 
         :return:
@@ -105,7 +108,7 @@ class Simplex(object):
             max_func.append(self._table[i, line])
         return max_func
 
-    def extract_constants(self):
+    def _extract_constants(self):
         """
 
         :return:
@@ -115,15 +118,15 @@ class Simplex(object):
             tmp.append(float(self._table[self._size_cols - 2, line]))
         return tmp
 
-    def compute_col_pivot(self):
+    def _compute_col_pivot(self):
         """
 
         :return:
         """
-        tmp = self.extract_max_func()
+        tmp = self._extract_max_func()
         return tmp.index(max(tmp))
 
-    def compute_ratio(self, col_pivot=0):
+    def _compute_ratio(self, col_pivot=0):
         """
 
         :param col_pivot:
@@ -149,7 +152,7 @@ class Simplex(object):
                 tmp[line].append(str(table[col, line]))
         print(
             tabulate(
-                tmp, self.headers, showindex=self.line_headers, tablefmt="fancy_grid"
+                tmp, self._headers, showindex=self._line_headers, tablefmt="fancy_grid"
             )
         )
 
@@ -161,15 +164,24 @@ class Simplex(object):
         :return: 
         """
         count = 0
-        while max(self.extract_max_func()) > 0:
+        while max(self._extract_max_func()) > 0:
             count += 1
-            self.next_step()
+            self._next_step()
             if show_step:
                 print(f"STEP {count}")
                 self.print_table(self._table)
             if count >= iter_limit:
                 break
-        return tuple(self.extract_constants())
+        res = self._extract_constants()
+        index = list(self._line_headers)
+        index.pop()
+        index = [int(x[1])-1 for x in index]
+        if len(index) != len(res):
+            raise ValueError()
+        tmp = [0]*len(res)
+        for i, v in enumerate(res):
+            tmp[index[i]] = v
+        return tuple(tmp)
 
 
 if __name__ == '__main__':
