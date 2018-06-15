@@ -11,9 +11,14 @@ class Simplex(object):
         """
         Setup and fill table with information from user.
 
-        :param eqs:
-        :param constants:
-        :param max_func:
+        :param eqs: List of equations (also call constraints),
+                    each equation is also a iterable.
+        :param constants: List of constant, must have the same size of eqs
+        :param max_func: Maximize objective function,
+                         must have the same size of an equation
+        :type eqs: iterable
+        :type constants: iterable
+        :type max_func: iterable
 
         :Example:
         >>> simp = Simplex(
@@ -69,12 +74,16 @@ class Simplex(object):
 
     @property
     def table(self):
-        return self._table
+        """
+        :return: Dictionary representing table,
+                 use tuple(col, line) as key.
+        :rtype: dict
+        """
+        return dict(self._table)
 
     def _next_step(self):
         """
-
-        :return:
+        Compute the next step table
         """
         col_pivot, line_pivot = self._compute_ratio(col_pivot=self._compute_col_pivot())
         self._line_headers.insert(0, self._headers[col_pivot])
@@ -99,8 +108,9 @@ class Simplex(object):
 
     def _extract_max_func(self):
         """
-
-        :return:
+        Extract maximize function from table.
+        :return: List representing maximize objective function.
+        :rtype: list
         """
         line = self._nb_eq
         max_func = []
@@ -110,8 +120,9 @@ class Simplex(object):
 
     def _extract_constants(self):
         """
-
-        :return:
+        Extract constants from table.
+        :return: List of each constants
+        :rtype: list
         """
         tmp = []
         for line in range(self._nb_eq):
@@ -120,17 +131,20 @@ class Simplex(object):
 
     def _compute_col_pivot(self):
         """
-
-        :return:
+        Compute the col index of pivot, which is the col with the biggest number in maximize function.
+        :return: Index of the pivot's column
+        :rtype: int
         """
         tmp = self._extract_max_func()
         return tmp.index(max(tmp))
 
     def _compute_ratio(self, col_pivot=0):
         """
-
-        :param col_pivot:
-        :return:
+        Compute column ration, and with ratio compute the pivot's line.
+        :param col_pivot: Index of the pivot column
+        :type col_pivot: int
+        :return: Position of pivot represent by tuple(col, line)
+        :rtype: tuple
         """
         tmp = []
         for line in range(self._size_lines - 1):
@@ -141,9 +155,9 @@ class Simplex(object):
 
     def print_table(self, table):
         """
-
-        :param table:
-        :return:
+        Function to print table with a nice formatting.
+        :param table: Table to show
+        :type table: dict
         """
         tmp = []
         for line in range(self._size_lines):
@@ -158,10 +172,13 @@ class Simplex(object):
 
     def resolve(self, show_step=True, iter_limit=10):
         """
-        
-        :param show_step: 
-        :param iter_limit: 
-        :return: 
+        Run algorithm until the final step.
+        :param show_step: Show table between each step.
+        :param iter_limit: Number max of iteration.
+        :type show_step: bool
+        :type iter_limit: int
+        :return: List of unknown found by simplex, representing by tuple(x1, x2, x3, etc)
+        :rtype: tuple
         """
         count = 0
         while max(self._extract_max_func()) > 0:
