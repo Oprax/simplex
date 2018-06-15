@@ -9,7 +9,9 @@ pypi_deploy:
   only:
   - master
   before_script:
-  - pip install twine
+  - pip install pipenv
+  - pipenv install
+  - pipenv install --skip-lock twine
   - rm -rf dist
   - echo "[distutils]" >> ~/.pypirc
   - echo "index-servers =" >> ~/.pypirc
@@ -20,6 +22,6 @@ pypi_deploy:
   - echo "${PYPI_USER}" >> ~/.pypirc
   - echo "${PYPI_PASSWORD}" >> ~/.pypirc
   script:
-  - python setup.py check sdist bdist  # This will fail if your creds are bad.
-  - python setup.py sdist bdist_wheel
-  - twine upload -r pypi dist/*
+  - pipenv run python setup.py check sdist bdist  # This will fail if your creds are bad.
+  - pipenv run python setup.py sdist bdist_wheel
+  - pipenv run twine upload -r pypi dist/*
