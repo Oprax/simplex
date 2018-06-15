@@ -10,8 +10,7 @@ pypi_deploy:
   - master
   before_script:
   - pip install pipenv
-  - pipenv install
-  - pipenv install --skip-lock twine
+  - pipenv install --dev
   - rm -rf dist
   - echo "[distutils]" >> ~/.pypirc
   - echo "index-servers =" >> ~/.pypirc

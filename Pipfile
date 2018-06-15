@@ -14,6 +14,7 @@ tabulate = "*"
 
 "flake8" = "*"
 mypy = "*"
+twine = "*"
 
 
 [requires]
