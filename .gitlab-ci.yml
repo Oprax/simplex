@@ -2,7 +2,16 @@ image: python:3.6-stretch
 
 
 stages:
+  - test
   - deploy
+
+py36:
+  stage: test
+  before_script:
+  - pip install pipenv
+  - pipenv install --dev
+  script:
+  - pipenv run python ./simplex/simplex.py
 
 pypi_deploy:
   stage: deploy
