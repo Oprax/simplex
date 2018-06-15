@@ -21,6 +21,5 @@ pypi_deploy:
   - echo "${PYPI_USER}" >> ~/.pypirc
   - echo "${PYPI_PASSWORD}" >> ~/.pypirc
   script:
-  - pipenv run python setup.py check sdist bdist  # This will fail if your creds are bad.
   - pipenv run python setup.py sdist bdist_wheel
   - pipenv run twine upload -r pypi dist/*
