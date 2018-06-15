@@ -3,6 +3,9 @@ from fractions import Fraction
 from tabulate import tabulate
 
 
+__all__ = ['Simplex']
+
+
 class Simplex(object):
     """
     Class to solve a linear optimization problem using simplex algorithm.
