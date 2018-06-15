@@ -1,0 +1,25 @@
+image: python:36
+
+
+stages:
+  - deploy
+
+pypi_deploy:
+  stage: deploy
+  only:
+  - master
+  before_script:
+  - pip install twine
+  - rm -rf dist
+  - echo "[distutils]" >> ~/.pypirc
+  - echo "index-servers =" >> ~/.pypirc
+  - echo "    pypi" >> ~/.pypirc
+  - echo "" >> ~/.pypirc
+  - echo "[pypi]" >> ~/.pypirc
+  - echo "${PYPI_REPO}" >> ~/.pypirc
+  - echo "${PYPI_USER}" >> ~/.pypirc
+  - echo "${PYPI_PASSWORD}" >> ~/.pypirc
+  script:
+  - python setup.py check sdist bdist  # This will fail if your creds are bad.
+  - python setup.py sdist bdist_wheel
+  - twine upload -r pypi dist/*
