@@ -18,9 +18,9 @@ pypi_deploy:
   - echo "    pypi" >> ~/.pypirc
   - echo "" >> ~/.pypirc
   - echo "[pypi]" >> ~/.pypirc
-  - echo "repository: ${PYPI_REPO}" >> ~/.pypirc
-  - echo "username: ${PYPI_USER}" >> ~/.pypirc
-  - echo "password: ${PYPI_PASSWORD}" >> ~/.pypirc
+  - echo "${PYPI_REPO}" >> ~/.pypirc
+  - echo "${PYPI_USER}" >> ~/.pypirc
+  - echo "${PYPI_PASSWORD}" >> ~/.pypirc
   script:
   - pipenv run python setup.py check sdist bdist  # This will fail if your creds are bad.
   - pipenv run python setup.py sdist bdist_wheel
