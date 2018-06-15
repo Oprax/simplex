@@ -8,18 +8,18 @@ stages:
 py36:
   stage: test
   before_script:
-  - pip install pipenv
-  - pipenv install --dev
+  - pip install pipenv --upgrade
+  - pipenv install --dev --skip-lock
   script:
-  - pipenv run python ./simplex/simplex.py
+  - pipenv run pytest .
 
 pypi_deploy:
   stage: deploy
   only:
   - master
   before_script:
-  - pip install pipenv
-  - pipenv install --dev
+  - pip install pipenv --upgrade
+  - pipenv install --dev --skip-lock
   - rm -rf dist
   - echo "[distutils]" >> ~/.pypirc
   - echo "index-servers =" >> ~/.pypirc

@@ -1,6 +1,11 @@
 Simplex
 =======
 
+[![GitHub license](https://img.shields.io/github/license/Oprax/simplex.svg?style=flat-square)](https://github.com/Oprax/simplex/blob/master/LICENSE)
+[![pipeline status](https://gitlab.com/Oprax/simplex/badges/master/pipeline.svg)](https://gitlab.com/Oprax/simplex/commits/master)
+[![PyPI](https://img.shields.io/pypi/v/ro-simplex.svg?style=flat-square)](https://pypi.org/project/ro-simplex/)
+
+
 Solver using simplex algorithm for linear optimization problems.
 
 # Example
