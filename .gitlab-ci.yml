@@ -7,7 +7,7 @@ stages:
 
 py3.4:
   stage: test
-  image: python:3.4-stretch
+  image: python:3.4-wheezy
   before_script:
   - pip install pipenv --upgrade
   - pipenv install --dev --skip-lock
@@ -25,7 +25,7 @@ py3.5:
 
 py3.6:
   stage: test
-  image: python:3.6-wheezy
+  image: python:3.6-stretch
   before_script:
   - pip install pipenv --upgrade
   - pipenv install --dev --skip-lock
