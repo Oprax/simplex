@@ -1,12 +1,31 @@
-image: python:3.6-stretch
+image: python:latest
 
 
 stages:
   - test
   - deploy
 
-py36:
+py3.4:
   stage: test
+  image: python:3.4-stretch
+  before_script:
+  - pip install pipenv --upgrade
+  - pipenv install --dev --skip-lock
+  script:
+  - pipenv run pytest .
+
+py3.5:
+  stage: test
+  image: python:3.5-stretch
+  before_script:
+  - pip install pipenv --upgrade
+  - pipenv install --dev --skip-lock
+  script:
+  - pipenv run pytest .
+
+py3.6:
+  stage: test
+  image: python:3.6-stretch
   before_script:
   - pip install pipenv --upgrade
   - pipenv install --dev --skip-lock
