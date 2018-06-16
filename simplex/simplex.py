@@ -75,7 +75,10 @@ class Simplex(object):
                     self._need_min = True
                 self._table[col, line] = Fraction(part)
         for col, part in enumerate(self._max_func):
-            self._table[col, self._nb_eq] = Fraction(part * -1)
+            if self._need_min:
+                self._table[col, self._nb_eq] = Fraction(part * -1)
+            else:
+                self._table[col, self._nb_eq] = Fraction(part)
         for line, part in enumerate(self._constants):
             self._table[self._size_eq + self._nb_eq, line] = Fraction(part)
 
