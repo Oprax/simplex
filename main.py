@@ -3,11 +3,9 @@ from simplex import Simplex
 
 def main():
     simp = Simplex(
-        eqs=((15, 7.5, 5), (2, 3, 2), (1, 1, 1)),
-        constants=(315, 110, 50),
-        max_func=(200, 150, 120),
+        eqs=((1, 3), (-1, 3), (1, -1)), constants=(21, 18, 5), max_func=(1, 2)
     )
-    r = simp.resolve()
+    r = simp.resolve(iter_limit=10)
     print("Result is", r)
 
 
