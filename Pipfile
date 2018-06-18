@@ -15,8 +15,4 @@ tabulate = "*"
 "flake8" = "*"
 mypy = "*"
 twine = "*"
-
-
-[requires]
-
-python_version = "3.6"
+pytest = "*"

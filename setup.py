@@ -7,14 +7,14 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="ro_simplex",
     version=simplex.__version__,
-    author=simplex.__author__.split(' <')[0],
-    author_email=simplex.__author__.split(' <')[1][:-1],
+    author=simplex.__author__.split(" <")[0],
+    author_email=simplex.__author__.split(" <")[1][:-1],
     description="Solver using simplex algorithm.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Oprax/simplex",
     packages=setuptools.find_packages(),
-    install_requires=['tabulate'],
+    install_requires=["tabulate"],
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
