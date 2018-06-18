@@ -167,7 +167,11 @@ class Simplex(object):
             )
             tmp.append(ratio)
             self._table[self._size_cols - 1, line] = Fraction(ratio)
-        return col_pivot, tmp.index(min(tmp))
+        m = min(tmp)
+        while m < 0:
+            tmp.remove(m)
+            m = min(tmp)
+        return col_pivot, tmp.index(m)
 
     def print_table(self, table):
         """
